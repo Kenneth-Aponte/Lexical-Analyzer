@@ -44,13 +44,12 @@ tokens = [
     'COLON',
     'ARROW',
     'COMMENT',
-    'WHITESPACE'
 ] + list(reserved.values())
 
 
 
 #Ignores
-t_ignore = ' \t'#TODO: verify if this works
+t_ignore = ' \t'
 t_ignore_COMMENT = r'\/\/.*'  #ignores the whole line except for line breaks
 
 #Simple tokens
@@ -82,7 +81,7 @@ t_COLON = r'\:'
 
 #More complicated tokens
 def t_ID(t):
-    r'[a-zA-z][a-zA-Z0-9]*'
+    r'[a-zA-Z][a-zA-Z0-9]*'
     #this handles the case for the 'ID' and ALL of the reserved words in the reserved dictionary
     t.type = reserved.get(t.value, 'ID')
     return t
@@ -90,9 +89,6 @@ def t_ID(t):
 
 def t_NUM(t):
     r'\d+'
-    #finds every number regardless of it starting with a 0 or not, if it does the 0 at the front gets removed by converting it to a string
-    t.value = int(t.value)
-    #TODO: verify if this is right
     return t
 
 
@@ -105,6 +101,7 @@ def t_newLine(t):
 
 #error handling
 def t_error(t):
+    #if its none of the above tokens then it is an invalid character
     print('Invalid character', t.value[0])
     t.lexer.skip(1)
 
